@@ -10,17 +10,18 @@ rules:
   - batch
   - rbac.authorization.k8s.io
   - metrics.k8s.io
+  - networking.k8s.io
   resources:
   - pods
   - deployments
   - services
-  - configMaps
+  - configmaps
   - secrets
   - replicasets
   - daemonsets
   - statefulsets
   - nodes
-  - ingress
+  - ingresses
   - namespace
   - jobs
   - cronjobs
