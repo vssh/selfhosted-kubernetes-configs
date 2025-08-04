@@ -17,7 +17,7 @@ spec:
             cpu: "1000m"
             memory: "2000Mi"
           requests:
-            cpu: "400m"
+            cpu: "300m"
             memory: "1000Mi"
         ports:
         - containerPort: 8096

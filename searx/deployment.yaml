@@ -10,14 +10,14 @@ spec:
     spec:
       containers:
       - name: searx
-        image: searxng/searxng:2025.7.22-5cbf422
+        image: searxng/searxng:2025.8.3-2e62eb5
         imagePullPolicy: Always
         resources:
           limits:
             cpu: "800m"
             memory: "500Mi"
           requests:
-            cpu: "200m"
+            cpu: "150m"
             memory: "200Mi"
         ports:
         - containerPort: 8080

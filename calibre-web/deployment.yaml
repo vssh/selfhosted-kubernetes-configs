@@ -10,14 +10,14 @@ spec:
     spec:
       containers:
       - name: calibre
-        image: crocodilestick/calibre-web-automated:V3.0.4
+        image: crocodilestick/calibre-web-automated:V3.1.2
         imagePullPolicy: Always
         resources:
           limits:
             cpu: "500m"
             memory: "600Mi"
           requests:
-            cpu: "200m"
+            cpu: "100m"
             memory: "300Mi"
         ports:
         - containerPort: 8083

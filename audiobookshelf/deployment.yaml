@@ -10,14 +10,14 @@ spec:
     spec:
       containers:
       - name: audiobookshelf
-        image: ghcr.io/advplyr/audiobookshelf:2.26.3
+        image: ghcr.io/advplyr/audiobookshelf:2.27.0
         imagePullPolicy: Always
         resources:
           limits:
             cpu: "800m"
             memory: "800Mi"
           requests:
-            cpu: "300m"
+            cpu: "250m"
             memory: "400Mi"
         ports:
         - containerPort: 80
