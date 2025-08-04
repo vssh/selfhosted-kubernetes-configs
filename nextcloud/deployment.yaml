@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: nextcloud
+        image: lscr.io/linuxserver/nextcloud:31.0.7
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1000Mi"
+          requests:
+            cpu: "300m"
+            memory: "400Mi"
+        ports:
+        - containerPort: 443
+        env:
+        - name: PUID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: user
+        - name: PGID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: group
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: timezone
+        volumeMounts:
+        - name: nc-config
+          mountPath: /config
+        - name: nc-storage
+          mountPath: /data
+      volumes:
+      - name: nc-config
+        persistentVolumeClaim:
+          claimName: nc-config-pvc
+      - name: nc-storage
+        persistentVolumeClaim:
+          claimName: nc-storage-pvc

@@ -1,0 +1,33 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml  
+
+namePrefix: ntfy-
+  
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      app: ntfy
+  
+namespace: util
+
+configMapGenerator:
+  - name: map
+    env: env/properties
+    
+patches:
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/diun-annotation.yaml
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/security-context.yaml
+#  Uncomment to let traefik handle ssl certs
+#  - target:
+#      kind: Ingress
+#      name: ingress
+#    path: patches/traefik-ssl-cert.yaml

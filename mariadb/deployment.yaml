@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: mariadb
+        image: lscr.io/linuxserver/mariadb:11.4.5
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "800m"
+            memory: "800Mi"
+          requests:
+            cpu: "200m"
+            memory: "400Mi"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mdb-config
+          mountPath: /config
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: root-password
+        - name: PUID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: user
+        - name: PGID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: group
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: timezone
+      
+      - name: phpmyadmin   
+        image: phpmyadmin/phpmyadmin:5.2.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: root-password
+        - name: PMA_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: mariadb-host
+      volumes:
+      - name: mdb-config
+        persistentVolumeClaim:
+          claimName: mdb-config-pvc

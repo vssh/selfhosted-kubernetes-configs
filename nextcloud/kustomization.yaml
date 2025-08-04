@@ -1,0 +1,34 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+
+namePrefix: nextcloud-
+  
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      app: nextcloud
+  - pairs:
+      needs-media: "true"
+  
+namespace: org
+    
+configMapGenerator:
+  - name: map
+    env: env/properties
+    
+patches:
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/diun-annotation.yaml
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/node-affinity.yaml
+#  Uncomment to let traefik handle ssl certs
+#  - target:
+#      kind: Ingress
+#      name: ingress
+#    path: patches/traefik-ssl-cert.yaml

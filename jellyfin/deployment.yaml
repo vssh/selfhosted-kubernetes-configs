@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: jellyfin
+        image: lscr.io/linuxserver/jellyfin:10.10.7
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "2000Mi"
+          requests:
+            cpu: "400m"
+            memory: "1000Mi"
+        ports:
+        - containerPort: 8096
+        env:
+        - name: JELLYFIN_PublishedServerUrl
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: server-url
+        - name: PUID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: user
+        - name: PGID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: group
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: timezone
+        volumeMounts:
+        - name: jf-config
+          mountPath: /config
+        - name: jf-media
+          mountPath: /Media
+      volumes:
+      - name: jf-config
+        persistentVolumeClaim:
+          claimName: jf-config-pvc
+      - name: jf-media
+        persistentVolumeClaim:
+          readOnly: true
+          claimName: jf-media-pvc

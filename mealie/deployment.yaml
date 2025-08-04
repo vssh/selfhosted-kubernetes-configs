@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: mealie
+        image: ghcr.io/mealie-recipes/mealie:v3.0.2
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "600Mi"
+          requests:
+            cpu: "200m"
+            memory: "300Mi"
+        ports:
+        - containerPort: 9000
+        volumeMounts:
+        - name: mealie-vol
+          mountPath: /app/data
+      volumes:
+      - name: mealie-vol
+        persistentVolumeClaim:
+          claimName: mealie-pvc

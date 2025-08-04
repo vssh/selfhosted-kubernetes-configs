@@ -1,0 +1,13 @@
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  template:
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: hasMedia
+                operator: DoesNotExist

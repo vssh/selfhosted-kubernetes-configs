@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: wallabag
+        image: wallabag/wallabag:2.6.13
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "400Mi"
+          requests:
+            cpu: "200m"
+            memory: "200Mi"
+        ports:
+        - containerPort: 80
+        env:
+        - name: SYMFONY__ENV__DATABASE_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: database
+        - name: SYMFONY__ENV__DOMAIN_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: domain-name
+        - name: SYMFONY__ENV__SERVER_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: server-name
+        - name: SYMFONY__ENV__FOSUSER_REGISTRATION
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: allow-registration
+        - name: SYMFONY__ENV__SECRET
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: secret
+        volumeMounts:
+        - name: wb-images
+          mountPath: /var/www/wallabag/web/assets/images
+        - name: wb-data
+          mountPath: /var/www/wallabag/data
+      volumes:
+      - name: wb-images
+        persistentVolumeClaim:
+          claimName: wb-images-pvc
+      - name: wb-data
+        persistentVolumeClaim:
+          claimName: wb-data-pvc

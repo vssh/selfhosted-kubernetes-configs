@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: uptime-kuma
+        image: louislam/uptime-kuma:1.23.16
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "500Mi"
+          requests:
+            cpu: "200m"
+            memory: "200Mi"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: uk-data
+          mountPath: /app/data
+      volumes:
+      - name: uk-data
+        persistentVolumeClaim:
+          claimName: uk-data-pvc

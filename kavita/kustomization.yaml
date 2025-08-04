@@ -1,0 +1,31 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml  
+
+namePrefix: kavita-
+  
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      app: kavita
+  - pairs:
+      needs-media: "true"
+  
+namespace: media
+    
+configMapGenerator:
+  - name: map
+    env: env/properties
+    
+patches:
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/diun-annotation.yaml
+#  Uncomment to let traefik handle ssl certs
+#  - target:
+#      kind: Ingress
+#      name: ingress
+#    path: patches/traefik-ssl-cert.yaml

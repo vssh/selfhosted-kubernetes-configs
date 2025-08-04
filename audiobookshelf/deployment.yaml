@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: audiobookshelf
+        image: ghcr.io/advplyr/audiobookshelf:2.26.3
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "800m"
+            memory: "800Mi"
+          requests:
+            cpu: "300m"
+            memory: "400Mi"
+        ports:
+        - containerPort: 80
+        env:
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: timezone
+        volumeMounts:
+        - name: abs-config
+          mountPath: /config
+        - name: abs-metadata
+          mountPath: /metadata
+        - name: abs-data
+          mountPath: /audiobooks
+        - name: abs-backups
+          mountPath: /backups
+      volumes:
+      - name: abs-config
+        persistentVolumeClaim:
+          claimName: abs-config-pvc
+      - name: abs-metadata
+        persistentVolumeClaim:
+          claimName: abs-metadata-pvc
+      - name: abs-data
+        persistentVolumeClaim:
+          claimName: abs-data-pvc
+      - name: abs-backups
+        persistentVolumeClaim:
+          claimName: abs-backups-pvc

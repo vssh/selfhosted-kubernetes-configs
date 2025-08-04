@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+        - name: alpine
+          image: alpine
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: ab-config
+              mountPath: /ab-config
+            
+      volumes:
+        - name: ab-config
+          persistentVolumeClaim:
+            claimName: ab-config-pvc
+            

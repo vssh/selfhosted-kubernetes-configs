@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgr-deployment
+  labels:
+    needs-media: "true"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pigallery
+  template:
+    metadata:
+      labels:
+        app: pigallery
+      annotations:
+        diun.enable: "true"
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: hasMedia
+                operator: DoesNotExist
+      securityContext:
+        runAsUser: 1003
+        runAsGroup: 1003
+        fsGroup: 1003
+        fsGroupChangePolicy: "OnRootMismatch"
+      containers:
+      - name: pigallery
+        image: bpatrik/pigallery2:2.0.0
+        imagePullPolicy: Always
+        ## DB set in app config
+#        command: ["/bin/sh"] 
+#        args: ["-c", "/bin/wait-for", "pigallery2", "--", "--Server-Database-mysql-host=192.168.1.250:30306", "--Server-Database-mysql-username=pigallery2", "--Server-Database-mysql-password=CkryT4HA0xgZT0m5", "--Server-Database-mysql-database=pigallery2"]
+        ports:
+        - containerPort: 80
+        env:
+        - name: NODE_ENV
+          value: production
+        volumeMounts:
+        - name: pgr-data
+          mountPath: /app/data
+        - name: pgr-db
+          mountPath: /app/data/db
+        - name: pgr-tmp
+          mountPath: /app/data/tmp
+        - name: pgr-pictures
+          mountPath: /app/data/images
+      volumes:
+      - name: pgr-data
+        persistentVolumeClaim:
+          claimName: pgr-data-pvc
+       - name: pgr-db
+         persistentVolumeClaim:
+           claimName: pgr-db-pvc
+       - name: pgr-tmp
+         persistentVolumeClaim:
+           claimName: pgr-tmp-pvc
+       - name: pgr-pictures
+         persistentVolumeClaim:
+           readOnly: true
+           claimName: pgr-pictures-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgr-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: pigallery
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pgr-ingress
+spec:
+  rules:
+  - host: "pigallery.internal"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pgr-service
+            port:
+              number: 80

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: calibre
+        image: crocodilestick/calibre-web-automated:V3.0.4
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "600Mi"
+          requests:
+            cpu: "200m"
+            memory: "300Mi"
+        ports:
+        - containerPort: 8083
+        env:
+        - name: PUID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: user
+        - name: PGID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: group
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: timezone
+        volumeMounts:
+        - name: cw-config
+          mountPath: /config
+        - name: cw-books
+          mountPath: /calibre-library
+#       Ingest Directory, for automatic addition to library
+#        - name: cw-ingest
+#          mountPath: /cwa-book-ingest
+      volumes:
+      - name: cw-config
+        persistentVolumeClaim:
+          claimName: cw-config-pvc
+      - name: cw-books
+        persistentVolumeClaim:
+          claimName: cw-books-pvc

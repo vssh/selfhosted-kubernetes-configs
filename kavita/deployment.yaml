@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: kavita
+        image: lscr.io/linuxserver/kavita:v0.8.7-ls82
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "800Mi"
+          requests:
+            cpu: "200m"
+            memory: "400Mi"
+        ports:
+        - containerPort: 5000
+        env:
+        - name: PUID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: user
+        - name: PGID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: group
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: timezone
+        volumeMounts:
+        - name: kv-config
+          mountPath: /config
+        - name: kv-comics
+          mountPath: /comics
+      volumes:
+      - name: kv-config
+        persistentVolumeClaim:
+          claimName: kv-config-pvc
+      - name: kv-comics
+        persistentVolumeClaim:
+          claimName: kv-comics-pvc

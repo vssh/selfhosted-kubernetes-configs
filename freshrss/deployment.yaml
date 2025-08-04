@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: freshrss
+        image: lscr.io/linuxserver/freshrss:1.26.3
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "400Mi"
+          requests:
+            cpu: "200m"
+            memory: "100Mi"
+        ports:
+        - containerPort: 80
+        env:
+        - name: PUID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: user
+        - name: PGID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: group
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: timezone
+        volumeMounts:
+        - name: fr-data
+          mountPath: /config
+      volumes:
+      - name: fr-data
+        persistentVolumeClaim:
+          claimName: fr-data-pvc

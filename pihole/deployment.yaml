@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  template:
+    spec:
+      volumes:
+      - name: pih-etc
+        persistentVolumeClaim:
+          claimName: pih-etc-pvc
+      - name: pih-dnsmasq
+        persistentVolumeClaim:
+          claimName: pih-dnsmasq-pvc
+      - name: dnsmasq-proxy-subdomains
+        configMap:
+          name: map
+          items:
+          - key: proxy-subdomains
+            path: proxied-subdomains
+      containers:
+      - name: pihole
+        image: mpgirro/pihole-unbound:2025.07.1
+        imagePullPolicy: "IfNotPresent"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "400m"
+        ports:
+        - containerPort: 80
+          name: pihole-http
+          protocol: TCP
+        - containerPort: 53
+          name: dns
+          protocol: TCP
+        - containerPort: 53
+          name: dns-udp
+          protocol: UDP
+        env:
+        - name: PIHOLE_UID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: user
+        - name: PIHOLE_GID
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: group
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: timezone
+        - name: REV_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: rev-server
+        - name: FTLCONF_LOCAL_IPV4
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: local-ipv4
+        - name: WEBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: web-password
+        - name: PIHOLE_DNS
+          value: "127.0.0.1#5335"
+        - name: DNSSEC
+          value: "true"
+        - name: DNSMASQ_LISTENING
+          value: "single"
+        - name: FTLCONF_misc_etc_dnsmasq_d
+          value: "true"
+        volumeMounts:
+        - name: pih-etc
+          mountPath: /etc/pihole
+        - name: pih-dnsmasq
+          mountPath: /etc/dnsmasq.d
+        - name: dnsmasq-proxy-subdomains
+          mountPath: /etc/dnsmasq.d/42-reverse-proxied-subdomains.conf
+          subPath: proxied-subdomains

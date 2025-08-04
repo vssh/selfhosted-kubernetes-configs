@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: searx
+        image: searxng/searxng:2025.7.22-5cbf422
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "800m"
+            memory: "500Mi"
+          requests:
+            cpu: "200m"
+            memory: "200Mi"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SEARXNG_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: base-url
+        volumeMounts:
+        - name: searx-vol
+          mountPath: /etc/searxng
+      volumes:
+      - name: searx-vol
+        persistentVolumeClaim:
+          claimName: searx-pvc

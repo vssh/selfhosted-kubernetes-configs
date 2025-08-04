@@ -1,0 +1,33 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+namePrefix: wallabag-
+  
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      app: wallabag
+  
+namespace: org
+
+configMapGenerator:
+  - name: map
+    env: env/properties
+    
+secretGenerator:
+  - name: secret
+    env: env/passwords
+    
+patches:
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/diun-annotation.yaml
+#  Uncomment to let traefik handle ssl certs
+#  - target:
+#      kind: Ingress
+#      name: ingress
+#    path: patches/traefik-ssl-cert.yaml

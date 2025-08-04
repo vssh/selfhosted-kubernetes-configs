@@ -1,0 +1,39 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml  
+
+namePrefix: audiobookshelf-
+  
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      app: audiobookshelf
+  - pairs:
+      needs-media: "true"
+  
+namespace: media
+    
+configMapGenerator:
+  - name: map
+    env: env/properties
+    
+patches:
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/diun-annotation.yaml
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/node-affinity.yaml
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/security-context.yaml
+#  Uncomment to let traefik handle ssl certs
+#  - target:
+#      kind: Ingress
+#      name: ingress
+#    path: patches/traefik-ssl-cert.yaml

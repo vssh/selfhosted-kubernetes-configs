@@ -1,0 +1,13 @@
+*/env/
+*.scrt.yaml
+*.scrt.yml
+*secret.yaml
+*secret.yml
+*passwords*
+*.cm.yaml
+*.cm.yml
+*configmap.yaml
+*configmap.yml
+*properties*
+srvr/
+*.pv.yaml
