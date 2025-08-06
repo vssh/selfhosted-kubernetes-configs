@@ -42,20 +42,50 @@ spec:
             configMapKeyRef:
               name: map
               key: allow-registration
+        - name: SYMFONY__ENV__DATABASE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: db-host
+        - name: SYMFONY__ENV__DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: db-port
+        - name: SYMFONY__ENV__DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: db-name
+        - name: SYMFONY__ENV__DATABASE_USER
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: db-user
+        - name: SYMFONY__ENV__DATABASE_CHARSET
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: db-charset
+        - name: SYMFONY__ENV__DATABASE_TABLE_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: db-table-prefix
         - name: SYMFONY__ENV__SECRET
           valueFrom:
             secretKeyRef:
               name: secret
               key: secret
+        - name: SYMFONY__ENV__DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: db-password
         volumeMounts:
-        - name: wb-images
+        - name: images
           mountPath: /var/www/wallabag/web/assets/images
-        - name: wb-data
-          mountPath: /var/www/wallabag/data
       volumes:
-      - name: wb-images
+      - name: images
         persistentVolumeClaim:
-          claimName: wb-images-pvc
-      - name: wb-data
-        persistentVolumeClaim:
-          claimName: wb-data-pvc
+          claimName: images-pvc
