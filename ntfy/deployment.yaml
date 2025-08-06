@@ -26,9 +26,9 @@ spec:
         - configMapRef:
             name: map
         volumeMounts:
-        - name: ntfy-lib
+        - name: lib
           mountPath: /var/lib/ntfy
       volumes:
-      - name: ntfy-lib
+      - name: lib
         persistentVolumeClaim:
-          claimName: ntfy-lib-pvc
+          claimName: lib-pvc

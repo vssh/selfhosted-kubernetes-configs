@@ -12,7 +12,9 @@ rules:
   - metrics.k8s.io
   - networking.k8s.io
   resources:
+  - namespaces
   - pods
+  - pods/log
   - deployments
   - services
   - configmaps

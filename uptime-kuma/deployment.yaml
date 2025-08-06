@@ -22,9 +22,9 @@ spec:
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: uk-data
+        - name: data
           mountPath: /app/data
       volumes:
-      - name: uk-data
+      - name: data
         persistentVolumeClaim:
-          claimName: uk-data-pvc
+          claimName: data-pvc

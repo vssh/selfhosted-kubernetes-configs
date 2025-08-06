@@ -1,29 +1,28 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: cw-config-pvc
-  namespace: media
+  name: config-pvc
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn
+  volumeName: config-pv
   resources:
     requests:
-      storage: 500Mi
+      storage: 5Gi
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: cw-books-pvc
-  namespace: media
+  name: media-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadOnlyMany
   volumeMode: Filesystem
   storageClassName: nfs
-  volumeName: calibre-books-pv
+  volumeName: media-pv
   resources:
     requests:
-      storage: 5Gi
+      storage: 1000Gi

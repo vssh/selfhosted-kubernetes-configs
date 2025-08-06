@@ -7,12 +7,12 @@ spec:
   template:
     spec:
       volumes:
-      - name: pih-etc
+      - name: etc
         persistentVolumeClaim:
-          claimName: pih-etc-pvc
-      - name: pih-dnsmasq
+          claimName: etc-pvc
+      - name: dnsmasq
         persistentVolumeClaim:
-          claimName: pih-dnsmasq-pvc
+          claimName: dnsmasq-pvc
       - name: dnsmasq-proxy-subdomains
         configMap:
           name: map
@@ -80,9 +80,9 @@ spec:
         - name: FTLCONF_misc_etc_dnsmasq_d
           value: "true"
         volumeMounts:
-        - name: pih-etc
+        - name: etc
           mountPath: /etc/pihole
-        - name: pih-dnsmasq
+        - name: dnsmasq
           mountPath: /etc/dnsmasq.d
         - name: dnsmasq-proxy-subdomains
           mountPath: /etc/dnsmasq.d/42-reverse-proxied-subdomains.conf

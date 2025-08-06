@@ -22,7 +22,7 @@ spec:
         ports:
         - containerPort: 3306
         volumeMounts:
-        - name: mdb-config
+        - name: config
           mountPath: /config
         env:
         - name: MYSQL_ROOT_PASSWORD
@@ -63,6 +63,6 @@ spec:
               name: map
               key: mariadb-host
       volumes:
-      - name: mdb-config
+      - name: config
         persistentVolumeClaim:
-          claimName: mdb-config-pvc
+          claimName: config-pvc

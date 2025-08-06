@@ -38,17 +38,17 @@ spec:
               name: map
               key: timezone
         volumeMounts:
-        - name: cw-config
+        - name: config
           mountPath: /config
-        - name: cw-books
+        - name: books
           mountPath: /calibre-library
 #       Ingest Directory, for automatic addition to library
 #        - name: cw-ingest
 #          mountPath: /cwa-book-ingest
       volumes:
-      - name: cw-config
+      - name: config
         persistentVolumeClaim:
-          claimName: cw-config-pvc
-      - name: cw-books
+          claimName: config-pvc
+      - name: books
         persistentVolumeClaim:
-          claimName: cw-books-pvc
+          claimName: books-pvc

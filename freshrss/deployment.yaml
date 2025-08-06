@@ -38,9 +38,9 @@ spec:
               name: map
               key: timezone
         volumeMounts:
-        - name: fr-data
+        - name: data
           mountPath: /config
       volumes:
-      - name: fr-data
+      - name: data
         persistentVolumeClaim:
-          claimName: fr-data-pvc
+          claimName: data-pvc

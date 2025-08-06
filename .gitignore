@@ -10,5 +10,5 @@
 *configmap.yml
 *properties*
 srvr/
-*.pv.yaml
+*nfs.pv.yaml
 _config/userManagement/user_keys/

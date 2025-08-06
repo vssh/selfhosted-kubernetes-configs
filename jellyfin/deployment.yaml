@@ -43,15 +43,15 @@ spec:
               name: map
               key: timezone
         volumeMounts:
-        - name: jf-config
+        - name: config
           mountPath: /config
-        - name: jf-media
+        - name: media
           mountPath: /Media
       volumes:
-      - name: jf-config
+      - name: config
         persistentVolumeClaim:
-          claimName: jf-config-pvc
-      - name: jf-media
+          claimName: config-pvc
+      - name: media
         persistentVolumeClaim:
           readOnly: true
-          claimName: jf-media-pvc
+          claimName: media-pvc

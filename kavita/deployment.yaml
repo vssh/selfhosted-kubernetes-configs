@@ -38,14 +38,14 @@ spec:
               name: map
               key: timezone
         volumeMounts:
-        - name: kv-config
+        - name: config
           mountPath: /config
-        - name: kv-comics
+        - name: comics
           mountPath: /comics
       volumes:
-      - name: kv-config
+      - name: config
         persistentVolumeClaim:
-          claimName: kv-config-pvc
-      - name: kv-comics
+          claimName: config-pvc
+      - name: comics
         persistentVolumeClaim:
-          claimName: kv-comics-pvc
+          claimName: comics-pvc

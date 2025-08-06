@@ -1,6 +1,8 @@
 resources:
   - deployment.yaml
-  - service.yaml  
+  - service.yaml
+  - storage/longhorn.pv.yaml
+  - storage/pvc.yaml
 
 namePrefix: mariadb-
   
@@ -34,3 +36,15 @@ patches:
 #      kind: Ingress
 #      name: ingress
 #    path: patches/traefik-ssl-cert.yaml
+
+replacements:
+- source:
+    kind: PersistentVolume
+    name: config-pv
+    fieldPath: metadata.name
+  targets:
+  - select:
+      kind: PersistentVolume
+      name: config-pv
+    fieldPaths:
+    - spec.csi.volumeHandle

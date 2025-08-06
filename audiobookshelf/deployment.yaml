@@ -28,24 +28,24 @@ spec:
               name: map
               key: timezone
         volumeMounts:
-        - name: abs-config
+        - name: config
           mountPath: /config
-        - name: abs-metadata
+        - name: metadata
           mountPath: /metadata
-        - name: abs-data
+        - name: data
           mountPath: /audiobooks
-        - name: abs-backups
+        - name: backups
           mountPath: /backups
       volumes:
-      - name: abs-config
+      - name: config
         persistentVolumeClaim:
-          claimName: abs-config-pvc
-      - name: abs-metadata
+          claimName: config-pvc
+      - name: metadata
         persistentVolumeClaim:
-          claimName: abs-metadata-pvc
-      - name: abs-data
+          claimName: metadata-pvc
+      - name: data
         persistentVolumeClaim:
-          claimName: abs-data-pvc
-      - name: abs-backups
+          claimName: data-pvc
+      - name: backups
         persistentVolumeClaim:
-          claimName: abs-backups-pvc
+          claimName: backups-pvc

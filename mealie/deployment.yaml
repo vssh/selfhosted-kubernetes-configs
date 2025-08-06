@@ -22,9 +22,9 @@ spec:
         ports:
         - containerPort: 9000
         volumeMounts:
-        - name: mealie-vol
+        - name: vol
           mountPath: /app/data
       volumes:
-      - name: mealie-vol
+      - name: vol
         persistentVolumeClaim:
-          claimName: mealie-pvc
+          claimName: pvc

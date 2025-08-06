@@ -22,19 +22,19 @@ spec:
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: fb-config
+        - name: config
           mountPath: /config
-        - name: fb-db
+        - name: db
           mountPath: /database
-        - name: fb-storage
+        - name: storage
           mountPath: /srv
       volumes:
-      - name: fb-config
+      - name: config
         persistentVolumeClaim:
-          claimName: fb-config-pvc
-      - name: fb-db
+          claimName: config-pvc
+      - name: db
         persistentVolumeClaim:
-          claimName: fb-db-pvc
-      - name: fb-storage
+          claimName: db-pvc
+      - name: storage
         persistentVolumeClaim:
-          claimName: fb-storage-pvc
+          claimName: storage-pvc

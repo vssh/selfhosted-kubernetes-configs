@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: kv-config-pvc
-  namespace: media
+  name: config-pvc
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn
+  volumeName: config-pv
   resources:
     requests:
       storage: 500Mi
@@ -16,14 +16,13 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: kv-comics-pvc
-  namespace: media
+  name: comics-pvc
 spec:
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   storageClassName: nfs
-  volumeName: kavita-comics-pv
+  volumeName: comics-pv
   resources:
     requests:
       storage: 25Gi

@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: fr-data-pvc
-  namespace: org
+  name: pvc
+  namespace: util
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn
+  volumeName: pv
   resources:
     requests:
-      storage: 500Mi
+      storage: 20Mi

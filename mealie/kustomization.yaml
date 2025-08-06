@@ -1,7 +1,9 @@
 resources:
   - deployment.yaml
   - service.yaml
-  - ingress.yaml  
+  - ingress.yaml
+  - storage/longhorn.pv.yaml
+  - storage/pvc.yaml
 
 namePrefix: mealie-
   
@@ -23,3 +25,15 @@ patches:
 #      kind: Ingress
 #      name: ingress
 #    path: patches/traefik-ssl-cert.yaml
+
+replacements:
+- source:
+    kind: PersistentVolume
+    name: pv
+    fieldPath: metadata.name
+  targets:
+  - select:
+      kind: PersistentVolume
+      name: pv
+    fieldPaths:
+    - spec.csi.volumeHandle

@@ -38,14 +38,14 @@ spec:
               name: map
               key: timezone
         volumeMounts:
-        - name: nc-config
+        - name: config
           mountPath: /config
-        - name: nc-storage
+        - name: storage
           mountPath: /data
       volumes:
-      - name: nc-config
+      - name: config
         persistentVolumeClaim:
-          claimName: nc-config-pvc
-      - name: nc-storage
+          claimName: config-pvc
+      - name: storage
         persistentVolumeClaim:
-          claimName: nc-storage-pvc
+          claimName: storage-pvc

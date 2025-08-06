@@ -28,9 +28,9 @@ spec:
               name: map
               key: base-url
         volumeMounts:
-        - name: searx-vol
+        - name: vol
           mountPath: /etc/searxng
       volumes:
-      - name: searx-vol
+      - name: vol
         persistentVolumeClaim:
-          claimName: searx-pvc
+          claimName: pvc

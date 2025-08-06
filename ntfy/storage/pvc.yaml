@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ntfy-lib-pvc
-  namespace: util
+  name: lib-pvc
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn
+  volumeName: lib-pv
   resources:
     requests:
-      storage: 50Mi
+      storage: 200Mi
 
