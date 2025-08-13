@@ -15,6 +15,7 @@ rules:
   - namespaces
   - pods
   - pods/log
+  - pods/exec
   - deployments
   - services
   - configmaps
