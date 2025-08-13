@@ -1,0 +1,11 @@
+kind: Ingress
+metadata:
+  name: ingress
+#  Uncomment to let traefik handle ssl certs
+  annotations:
+    kubernetes.io/spec.ingressClassName: "traefik"
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
+    traefik.ingress.kubernetes.io/router.tls.domains.0.main: "example.com"
+    traefik.ingress.kubernetes.io/router.tls.domains.0.sans: "*.example.com"

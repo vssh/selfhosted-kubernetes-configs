@@ -1,0 +1,36 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+namePrefix: olivetin-
+  
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      app: olivetin
+  
+namespace: util
+
+configMapGenerator:
+  - name: map
+    files:
+      - env/config.yaml
+
+secretGenerator:
+  - name: secret
+    files:
+      - env/id_ed25519
+      - env/id_ed25519.pub
+      
+patches:
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/diun-annotation.yaml
+#  Uncomment to let traefik handle ssl certs
+#  - target:
+#      kind: Ingress
+#      name: ingress
+#    path: patches/traefik-ssl-cert.yaml
