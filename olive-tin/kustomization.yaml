@@ -17,6 +17,8 @@ configMapGenerator:
   - name: map
     files:
       - env/config.yaml
+      - env/servers.yaml
+      - env/services.yaml
 
 secretGenerator:
   - name: secret

@@ -42,6 +42,13 @@ spec:
       - name: config-file
         configMap:
           name: map
+          items:
+          - key: config.yaml
+            path: config.yaml
+          - key: servers.yaml
+            path: servers.yaml
+          - key: services.yaml
+            path: services.yaml
       - name: secret-file
         secret:
           secretName: secret
