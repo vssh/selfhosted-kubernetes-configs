@@ -14,10 +14,10 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            cpu: "400m"
-            memory: "400Mi"
+            cpu: "200m"
+            memory: "200Mi"
           requests:
-            cpu: "100m"
+            cpu: "50m"
             memory: "100Mi"
         ports:
         - containerPort: 1337
@@ -50,3 +50,5 @@ spec:
             path: id_ed25519
           - key: id_ed25519.pub
             path: id_ed25519.pub
+          - key: known_hosts
+            path: known_hosts
