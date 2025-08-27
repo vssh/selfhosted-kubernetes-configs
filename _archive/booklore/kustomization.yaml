@@ -3,18 +3,21 @@ resources:
   - service.yaml
   - ingress.yaml
   - storage/longhorn.pv.yaml
+  - storage/nfs.pv.yaml
   - storage/pvc.yaml
 
-namePrefix: mariadb-
+namePrefix: booklore-
   
 labels:
   - includeSelectors: true
     includeTemplates: true
     pairs:
-      app: mariadb
+      app: booklore
+  - pairs:
+      needs-media: "true"
   
-namespace: util
-
+namespace: media
+    
 configMapGenerator:
   - name: map
     env: env/properties
@@ -28,10 +31,6 @@ patches:
       kind: Deployment
       name: deployment
     path: patches/diun-annotation.yaml
-  - target:
-      kind: Deployment
-      name: deployment
-    path: patches/node-affinity.yaml
 #  Uncomment to let traefik handle ssl certs
 #  - target:
 #      kind: Ingress
@@ -41,11 +40,11 @@ patches:
 replacements:
 - source:
     kind: PersistentVolume
-    name: config-pv
+    name: data-pv
     fieldPath: metadata.name
   targets:
   - select:
       kind: PersistentVolume
-      name: config-pv
+      name: data-pv
     fieldPaths:
     - spec.csi.volumeHandle

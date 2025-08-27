@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: booklore
+        image: ghcr.io/booklore-app/booklore:v0.38.0
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "600m"
+            memory: "800Mi"
+          requests:
+            cpu: "100m"
+            memory: "500Mi"
+        ports:
+        - containerPort: 6060
+        envFrom:
+        - configMapRef:
+            name: map
+        - secretRef:
+            name: secret
+        volumeMounts:
+        - name: data
+          mountPath: /app/data
+        - name: books
+          mountPath: /books
+        - name: comics
+          mountPath: /comics
+#       Ingest Directory, for automatic addition to library
+#        - name: bookdrop
+#          mountPath: /bookdrop
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: data-pvc
+      - name: books
+        persistentVolumeClaim:
+          claimName: books-pvc
+      - name: comics
+        persistentVolumeClaim:
+          claimName: comics-pvc

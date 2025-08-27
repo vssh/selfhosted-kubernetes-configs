@@ -12,4 +12,3 @@ spec:
     - name: admin-port
       port: 80
       targetPort: 80
-      nodePort: 30888
