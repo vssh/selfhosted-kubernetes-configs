@@ -27,6 +27,7 @@ rules:
   - nodes
   - ingresses
   - namespace
+  - events
   - jobs
   - cronjobs
   - persistentvolumes

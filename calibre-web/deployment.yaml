@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: calibre
-        image: crocodilestick/calibre-web-automated:V3.1.2
+        image: lscr.io/linuxserver/calibre-web:0.6.25-ls345
         imagePullPolicy: Always
         resources:
           limits:
