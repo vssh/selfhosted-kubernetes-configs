@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: CronJob
 metadata:
   namespace: default
   name: diun
@@ -10,6 +10,7 @@ spec:
   selector:
     matchLabels:
       app: diun
+  schedule: "15 10 * * 0"
   template:
     metadata:
       labels:
