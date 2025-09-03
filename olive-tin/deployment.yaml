@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: olivetin
-        image: docker.io/jamesread/olivetin:2025.7.29
+        image: olivetin
         imagePullPolicy: Always
         resources:
           limits:

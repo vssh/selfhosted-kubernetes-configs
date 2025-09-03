@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: freshrss
-        image: lscr.io/linuxserver/freshrss:1.26.3
+        image: freshrss
         imagePullPolicy: Always
         resources:
           limits:

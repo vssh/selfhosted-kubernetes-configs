@@ -17,6 +17,11 @@ labels:
       needs-media: "true"
   
 namespace: media
+
+images:
+- name: jellyfin
+  newName: lscr.io/linuxserver/jellyfin
+  newTag: "10.10.7"
     
 configMapGenerator:
   - name: map

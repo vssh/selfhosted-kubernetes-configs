@@ -17,6 +17,11 @@ labels:
       needs-media: "true"
   
 namespace: util
+
+images:
+- name: filebrowser
+  newName: filebrowser/filebrowser
+  newTag: "v2.42.5"
     
 patches:
   - target:

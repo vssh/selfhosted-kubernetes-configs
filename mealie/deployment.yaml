@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: mealie
-        image: ghcr.io/mealie-recipes/mealie:v3.0.2
+        image: mealie
         imagePullPolicy: Always
         resources:
           limits:

@@ -14,6 +14,11 @@ labels:
       app: mealie
   
 namespace: org
+
+images:
+- name: mealie
+  newName: ghcr.io/mealie-recipes/mealie
+  newTag: "v3.1.2"
     
 patches:
   - target:

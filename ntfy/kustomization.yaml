@@ -15,6 +15,11 @@ labels:
   
 namespace: util
 
+images:
+- name: ntfy
+  newName: binwiederhier/ntfy
+  newTag: "v2.14"
+
 configMapGenerator:
   - name: map
     env: env/properties

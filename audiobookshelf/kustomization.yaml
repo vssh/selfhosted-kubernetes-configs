@@ -17,6 +17,11 @@ labels:
       needs-media: "true"
   
 namespace: media
+
+images:
+- name: audiobookshelf
+  newName: ghcr.io/advplyr/audiobookshelf
+  newTag: "2.29.0"
     
 configMapGenerator:
   - name: map

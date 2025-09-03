@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: searx
-        image: searxng/searxng:2025.8.3-2e62eb5
+        image: searx
         imagePullPolicy: Always
         resources:
           limits:

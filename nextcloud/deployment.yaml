@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: nextcloud
-        image: lscr.io/linuxserver/nextcloud:31.0.7
+        image: nextcloud
         imagePullPolicy: Always
         resources:
           limits:

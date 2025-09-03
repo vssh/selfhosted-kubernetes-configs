@@ -16,6 +16,11 @@ labels:
       needs-media: "true"
   
 namespace: org
+
+images:
+- name: nextcloud
+  newName: lscr.io/linuxserver/nextcloud
+  newTag: "31.0.7"
     
 configMapGenerator:
   - name: map

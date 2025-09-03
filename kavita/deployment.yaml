@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: kavita
-        image: lscr.io/linuxserver/kavita:v0.8.7-ls82
+        image: kavita
         imagePullPolicy: Always
         resources:
           limits:
