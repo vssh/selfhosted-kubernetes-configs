@@ -4,45 +4,44 @@ metadata:
   namespace: default
   name: diun
 spec:
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: diun
   schedule: "15 10 * * 0"
-  template:
+  jobTemplate:
     metadata:
       labels:
         app: diun
-      annotations:
-        diun.enable: "true"
     spec:
-      serviceAccountName: diun
-      containers:
-        - name: diun
-          image: crazymax/diun:latest
-          imagePullPolicy: Always
-          args: ["serve"]
-          env:
-          - name: TZ
-            valueFrom:
-              configMapKeyRef:
-                name: diun-cm
-                key: timezone
-          volumeMounts:
+      template:
+        metadata:
+          labels:
+            app: diun
+          annotations:
+            diun.enable: "true"
+        spec:
+          serviceAccountName: diun
+          containers:
+            - name: diun
+              image: crazymax/diun:latest
+              imagePullPolicy: Always
+              args: ["serve"]
+              env:
+              - name: TZ
+                valueFrom:
+                  configMapKeyRef:
+                    name: diun-cm
+                    key: timezone
+              volumeMounts:
+                - name: diun-data
+                  mountPath: /data
+                - name: config-file
+                  mountPath: /etc/diun
+          restartPolicy: OnFailure
+          volumes:
             - name: diun-data
-              mountPath: /data
+              persistentVolumeClaim:
+                claimName: diun-data-pvc
             - name: config-file
-              mountPath: /etc/diun
-      restartPolicy: Always
-      volumes:
-        - name: diun-data
-          persistentVolumeClaim:
-            claimName: diun-data-pvc
-        - name: config-file
-          configMap:
-            name: diun-cm
-            items:
-            - key: "diun.yaml"
-              path: "diun.yaml"
+              configMap:
+                name: diun-cm
+                items:
+                - key: "diun.yaml"
+                  path: "diun.yaml"
