@@ -31,13 +31,29 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: storage-pvc
+  name: stuff-pvc
 spec:
   accessModes:
     - ReadOnlyMany
   volumeMode: Filesystem
   storageClassName: nfs
-  volumeName: storage-pv
+  volumeName: stuff-pv
   resources:
     requests:
-      storage: 1Ti
+      storage: 200Gi
+      
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pictures-pvc
+spec:
+  accessModes:
+    - ReadOnlyMany
+  volumeMode: Filesystem
+  storageClassName: nfs
+  volumeName: pictures-pv
+  resources:
+    requests:
+      storage: 50Gi

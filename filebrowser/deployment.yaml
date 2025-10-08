@@ -26,8 +26,10 @@ spec:
           mountPath: /config
         - name: db
           mountPath: /database
-        - name: storage
-          mountPath: /srv
+        - name: stuff
+          mountPath: /srv/gaurab_stuff
+        - name: pictures
+          mountPath: /srv/pictures
       volumes:
       - name: config
         persistentVolumeClaim:
@@ -35,6 +37,9 @@ spec:
       - name: db
         persistentVolumeClaim:
           claimName: db-pvc
-      - name: storage
+      - name: stuff
         persistentVolumeClaim:
-          claimName: storage-pvc
+          claimName: stuff-pvc
+      - name: pictures
+        persistentVolumeClaim:
+          claimName: pictures-pvc
