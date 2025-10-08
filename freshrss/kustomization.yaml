@@ -18,7 +18,7 @@ namespace: org
 images:
 - name: freshrss
   newName: lscr.io/linuxserver/freshrss
-  newTag: "1.27.0"
+  newTag: "1.27.1"
 
 configMapGenerator:
   - name: map

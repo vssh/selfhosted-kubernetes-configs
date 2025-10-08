@@ -21,7 +21,7 @@ namespace: media
 images:
 - name: kavita
   newName: lscr.io/linuxserver/kavita
-  newTag: "v0.8.7-ls84"
+  newTag: "v0.8.7-ls87"
     
 configMapGenerator:
   - name: map
