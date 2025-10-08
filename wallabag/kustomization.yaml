@@ -15,6 +15,11 @@ labels:
   
 namespace: org
 
+images:
+- name: wallabag
+  newName: wallabag/wallabag
+  newTag: "2.6.13"
+
 configMapGenerator:
   - name: map
     env: env/properties
