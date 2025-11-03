@@ -18,7 +18,7 @@ namespace: monitor
 images:
 - name: uptimekuma
   newName: louislam/uptime-kuma
-  newTag: "1.23.16"
+  newTag: "2.0.2"
     
 patches:
   - target:

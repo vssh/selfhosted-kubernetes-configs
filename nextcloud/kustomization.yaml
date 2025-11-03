@@ -20,7 +20,7 @@ namespace: org
 images:
 - name: nextcloud
   newName: lscr.io/linuxserver/nextcloud
-  newTag: "32.0.0"
+  newTag: "32.0.1"
     
 configMapGenerator:
   - name: map

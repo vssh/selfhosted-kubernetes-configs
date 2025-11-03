@@ -1,41 +1,44 @@
 resources:
   - deployment.yaml
   - service.yaml
-  - ingress.yaml 
+  - ingress.yaml
   - storage/longhorn.pv.yaml
-  - storage/nfs.pv.yaml
   - storage/pvc.yaml
 
-namePrefix: jellyfin-
+namePrefix: forgejo-
   
 labels:
   - includeSelectors: true
     includeTemplates: true
     pairs:
-      app: jellyfin
-  - pairs:
-      needs-media: "true"
+      app: forgejo
   
-namespace: media
+namespace: util
 
 images:
-- name: jellyfin
-  newName: lscr.io/linuxserver/jellyfin
-  newTag: "10.11.1"
+- name: forgejo
+  newName: codeberg.org/forgejo/forgejo
+  newTag: "13.0.2"
     
 configMapGenerator:
   - name: map
     env: env/properties
+    files:
+      - env/timezone
+    
+secretGenerator:
+  - name: secret
+    env: env/passwords
     
 patches:
   - target:
       kind: Deployment
       name: deployment
     path: patches/diun-annotation.yaml
-  - target:
-      kind: Deployment
-      name: deployment
-    path: patches/node-affinity.yaml
+#  - target:
+#      kind: Deployment
+#      name: deployment
+#    path: patches/security-context.yaml
 #  Uncomment to let traefik handle ssl certs
 #  - target:
 #      kind: Ingress
@@ -45,11 +48,11 @@ patches:
 replacements:
 - source:
     kind: PersistentVolume
-    name: config-pv
+    name: data-pv
     fieldPath: metadata.name
   targets:
   - select:
       kind: PersistentVolume
-      name: config-pv
+      name: data-pv
     fieldPaths:
     - spec.csi.volumeHandle
