@@ -18,7 +18,7 @@ namespace: default
 images:
 - name: pihole
   newName: docker.io/mpgirro/pihole-unbound
-  newTag: "2025.10.3"
+  newTag: "2025.11.0"
     
 configMapGenerator:
   - name: map
