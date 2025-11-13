@@ -6,4 +6,3 @@ spec:
     metadata:
       annotations:
         diun.enable: "true"
-        diun.include_tags: ^[vV]?\d+(?:\.\d+)+(?:[-\.]ls\d+)?$

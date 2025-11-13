@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: opencloud
+        image: opencloud
+        command: ["/bin/sh"]
+        args: ["-c", "opencloud init --insecure true || true; opencloud server"]
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1000Mi"
+          requests:
+            cpu: "250m"
+            memory: "400Mi"
+        ports:
+        - containerPort: 9200
+        envFrom:
+        - configMapRef:
+            name: map
+        volumeMounts:
+        - name: config
+          mountPath: /etc/opencloud
+        - name: data
+          mountPath: /var/lib/opencloud
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: config-pvc
+      - name: data
+        persistentVolumeClaim:
+          claimName: data-pvc

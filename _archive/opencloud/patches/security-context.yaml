@@ -1,0 +1,11 @@
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  template:
+    spec:
+      securityContext:
+        runAsUser: 1003
+        runAsGroup: 1003
+        fsGroup: 1003
+        fsGroupChangePolicy: "OnRootMismatch"

@@ -1,27 +1,26 @@
 resources:
   - deployment.yaml
   - service.yaml
-  - ingress.yaml
   - storage/longhorn.pv.yaml
   - storage/nfs.pv.yaml
   - storage/pvc.yaml
 
-namePrefix: kavita-
+namePrefix: opencloud-
   
 labels:
   - includeSelectors: true
     includeTemplates: true
     pairs:
-      app: kavita
+      app: opencloud
   - pairs:
       needs-media: "true"
   
-namespace: media
+namespace: org
 
 images:
-- name: kavita
-  newName: lscr.io/linuxserver/kavita
-  newTag: "v0.8.7-ls87"
+- name: opencloud
+  newName: opencloudeu/opencloud
+  newTag: "2.0.5"
     
 configMapGenerator:
   - name: map
@@ -32,6 +31,14 @@ patches:
       kind: Deployment
       name: deployment
     path: patches/diun-annotation.yaml
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/node-affinity.yaml
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/security-context.yaml
 #  Uncomment to let traefik handle ssl certs
 #  - target:
 #      kind: Ingress

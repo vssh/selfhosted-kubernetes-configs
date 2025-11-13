@@ -3,35 +3,32 @@ resources:
   - service.yaml
   - ingress.yaml
   - storage/longhorn.pv.yaml
-  - storage/nfs.pv.yaml
   - storage/pvc.yaml
 
-namePrefix: kavita-
+namePrefix: baikal-
   
 labels:
   - includeSelectors: true
     includeTemplates: true
     pairs:
-      app: kavita
-  - pairs:
-      needs-media: "true"
+      app: baikal
   
-namespace: media
+namespace: org
 
 images:
-- name: kavita
-  newName: lscr.io/linuxserver/kavita
-  newTag: "v0.8.7-ls87"
-    
-configMapGenerator:
-  - name: map
-    env: env/properties
+- name: baikal
+  newName: ckulka/baikal
+  newTag: "0.10.1-nginx"
     
 patches:
   - target:
       kind: Deployment
       name: deployment
     path: patches/diun-annotation.yaml
+  - target:
+      kind: Deployment
+      name: deployment
+    path: patches/node-affinity.yaml
 #  Uncomment to let traefik handle ssl certs
 #  - target:
 #      kind: Ingress
@@ -39,6 +36,16 @@ patches:
 #    path: patches/traefik-ssl-cert.yaml
 
 replacements:
+- source:
+    kind: PersistentVolume
+    name: data-pv
+    fieldPath: metadata.name
+  targets:
+  - select:
+      kind: PersistentVolume
+      name: data-pv
+    fieldPaths:
+    - spec.csi.volumeHandle
 - source:
     kind: PersistentVolume
     name: config-pv
