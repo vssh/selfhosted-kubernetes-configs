@@ -16,7 +16,7 @@ namespace: util
 images:
 - name: olivetin
   newName: docker.io/jamesread/olivetin
-  newTag: "3000.3.2"
+  newTag: "3000.4.0"
 
 configMapGenerator:
   - name: map
